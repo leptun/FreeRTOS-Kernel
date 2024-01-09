@@ -408,6 +408,33 @@
     #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 /*-----------------------------------------------------------*/
 
+    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+
+        void vCloneAccessToKernelObjects( TaskHandle_t xExternalTaskHandle,
+                                          TaskHandle_t xExternalTaskHandleToClone ) /* PRIVILEGED_FUNCTION */
+        {
+            int32_t lExternalTaskIndex, lExternalTaskIndexToClone;
+            TaskHandle_t xInternalTaskHandle = NULL, xInternalTaskHandleToClone = NULL;
+
+            lExternalTaskIndex = ( int32_t ) xExternalTaskHandle;
+            lExternalTaskIndexToClone = ( int32_t ) xExternalTaskHandleToClone;
+
+            if( IS_EXTERNAL_INDEX_VALID( lExternalTaskIndex ) != pdFALSE )
+            {
+                xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lExternalTaskIndex ) );
+            }
+
+            if( IS_EXTERNAL_INDEX_VALID( lExternalTaskIndexToClone ) != pdFALSE )
+            {
+                xInternalTaskHandleToClone = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lExternalTaskIndexToClone ) );
+            }
+
+            vPortCloneAccessToKernelObjects( xInternalTaskHandle, xInternalTaskHandleToClone );
+        }
+
+    #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+/*-----------------------------------------------------------*/
+
     #if ( configUSE_TIMERS == 1 )
 
         static void MPU_TimerCallback( TimerHandle_t xInternalHandle ) /* PRIVILEGED_FUNCTION */
