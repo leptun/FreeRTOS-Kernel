@@ -4636,13 +4636,6 @@
             StreamBufferHandle_t xExternalStreamBufferHandle = NULL;
             int32_t lIndex;
 
-            /**
-             * Stream buffer application level callback functionality is disabled for MPU
-             * enabled ports.
-             */
-            configASSERT( ( pxSendCompletedCallback == NULL ) &&
-                          ( pxReceiveCompletedCallback == NULL ) );
-
             if( ( pxSendCompletedCallback == NULL ) &&
                 ( pxReceiveCompletedCallback == NULL ) )
             {
@@ -4653,8 +4646,8 @@
                     xInternalStreamBufferHandle = xStreamBufferGenericCreate( xBufferSizeBytes,
                                                                               xTriggerLevelBytes,
                                                                               xIsMessageBuffer,
-                                                                              NULL,
-                                                                              NULL );
+																			  pxSendCompletedCallback,
+																			  pxReceiveCompletedCallback );
 
                     if( xInternalStreamBufferHandle != NULL )
                     {
@@ -4693,13 +4686,6 @@
             StreamBufferHandle_t xExternalStreamBufferHandle = NULL;
             int32_t lIndex;
 
-            /**
-             * Stream buffer application level callback functionality is disabled for MPU
-             * enabled ports.
-             */
-            configASSERT( ( pxSendCompletedCallback == NULL ) &&
-                          ( pxReceiveCompletedCallback == NULL ) );
-
             if( ( pxSendCompletedCallback == NULL ) &&
                 ( pxReceiveCompletedCallback == NULL ) )
             {
@@ -4712,8 +4698,8 @@
                                                                                     xIsMessageBuffer,
                                                                                     pucStreamBufferStorageArea,
                                                                                     pxStaticStreamBuffer,
-                                                                                    NULL,
-                                                                                    NULL );
+																					pxSendCompletedCallback,
+																					pxReceiveCompletedCallback );
 
                     if( xInternalStreamBufferHandle != NULL )
                     {
